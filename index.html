@@ -1,0 +1,165 @@
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="theme-color"
+      content="#101010"
+    />
+
+    <meta
+      name="description"
+      content="Informe de métricas y rendimiento del canal de YouTube."
+    />
+
+    <link rel="stylesheet" href="/src/style.css">
+    <title>Informe del canal | La guerita alemana</title>
+  </head>
+
+  <body>
+
+    <header class="topbar">
+      <a class="brand" href="#inicio">
+        <span class="brand-icon">▶</span>
+        <span>INFORMACIÓN SOBRE EL<span class="brand-light">CANAL</span></span>
+      </a>
+
+      <a class="topbar-link" href="#metricas">
+        Informe del canal <span aria-hidden="true">↗</span>
+      </a>
+    </header>
+
+    <main>
+
+      <section class="hero" id="inicio">
+        <div class="hero-glow"></div>
+
+        <div class="hero-content">
+          <span class="eyebrow">
+            INFORME DE RENDIMIENTO
+          </span>
+
+          <div class="profile">
+            <img
+              id="channel-image"
+              class="channel-image"
+              src="/images/channels4_profile.jpg"
+              alt="Imagen del canal"
+            />
+
+            <div class="profile-copy">
+              <span class="profile-label">CANAL DE YOUTUBE</span>
+              <h1 id="channel-name">Cargando canal...</h1>
+              <p id="channel-handle"></p>
+            </div>
+          </div>
+
+          <p id="channel-description" class="hero-description">
+            Un vistazo al rendimiento y alcance de tu contenido.
+          </p>
+
+          
+<div class="report-meta">
+  <div class="report-meta-item">
+    <span class="meta-icon" aria-hidden="true">↻</span>
+    <div>
+      <span class="meta-label">ÚLTIMA ACTUALIZACIÓN</span>
+      <time id="last-updated" class="meta-value">
+        Pendiente
+      </time>
+    </div>
+  </div>
+
+  <div class="report-meta-item">
+    <span class="meta-icon" aria-hidden="true">◷</span>
+    <div>
+      <span class="meta-label">PERIODO ANALIZADO</span>
+      <span id="analysis-period" class="meta-value">
+        Pendiente
+      </span>
+    </div>
+  </div>
+</div>
+
+          <a class="primary-button" href="#metricas">
+            Explorar métricas
+            <span aria-hidden="true">↓</span>
+          </a>
+        </div>
+
+        <div class="hero-index" aria-hidden="true">
+          <span>CHANNEL REPORT</span>
+          <span>01 — 04</span>
+        </div>
+      </section>
+
+<section class="metrics-section section-shell" id="metricas">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">RESUMEN DEL CANAL</span>
+        <h2>Los números que cuentan la historia.</h2>
+        </div>
+          <p class="section-description">
+            Una visión general de la comunidad y el contenido
+            acumulado del canal.
+          </p>
+        </div>
+
+        <div id="metrics-grid" class="metrics-grid">
+          <p class="loading-message">Cargando métricas...</p>
+        </div>
+      </section>
+
+
+      <section class="charts-section section-shell" id="graficas">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">ANÁLISIS VISUAL</span>
+            <h2>Explora el rendimiento.</h2>
+          </div>
+
+          <p class="section-description">
+            Dos visualizaciones para profundizar en los datos
+            del canal.
+          </p>
+        </div>
+
+        <div id="charts-container" class="charts-container"></div>
+      </section>
+    </main>
+
+    <footer class="footer" id="redes">
+      <div class="footer-main">
+        <div>
+          <a class="brand footer-brand" href="#inicio">
+            <span class="brand-icon">▶</span>
+            <span>CHANNEL<span class="brand-light">INSIGHTS</span></span>
+          </a>
+
+          <p class="footer-description">
+            Una mirada estratégica a los datos del canal.
+          </p>
+        </div>
+
+        <div class="social-block">
+          <span class="eyebrow">ENCUENTRA AL CREADOR</span>
+          <nav
+            id="social-links"
+            class="social-links"
+            aria-label="Redes sociales del creador"
+          ></nav>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>CHANNEL INSIGHTS</span>
+        <a href="#inicio">Volver al inicio ↑</a>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
