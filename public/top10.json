@@ -1,0 +1,40 @@
+{
+  "channel": {
+    "handle": "@la_guerita_alemana",
+    "image": "/images/channels4_profile.jpg",
+    "name": "La Güerita alemana",
+    "description": "Un resumen del crecimiento y rendimiento del canal."
+  },
+  "report": {
+    "lastUpdated": "2026-10-12",
+    "period": {
+      "start": "2026-09-01",
+      "end": "2026-09-30"
+    }
+  },
+  "metrics": {
+    "subscribers": 84200,
+    "videos": 1125,
+    "views": 58153055,
+    "likes": 2084580,
+    "comments": 112599
+  },
+  "socials": [
+    {
+      "name": "YouTube",
+      "url": "https://www.youtube.com/@la_guerita_alemana"
+    },
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com/la.guerita.alemana/"
+    },
+    {
+      "name": "TikTok",
+      "url": "https://www.tiktok.com/@la.guerita.alemana"
+    },
+    {
+      "name": "Facebook",
+      "url": "https://www.facebook.com/lagueritaalemana/"
+    }
+  ]
+}
