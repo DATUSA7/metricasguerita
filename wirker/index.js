@@ -6,53 +6,71 @@ export default {
     const url = new URL(request.url);
     const ruta = url.pathname;
 
-    if (ruta !== "/api/metrics" && ruta !== "/api/top10") {
-      return env.ASSETS.fetch(request);
-    }
+    // Las rutas API se procesan en este Worker.
+    const rutasAPI = [
+      "/api/metrics",
+      "/api/top10",
+      "/api/top10menos"
+    ];
 
-    if (request.method !== "GET") {
-      return Response.json(
-        { ok: false, error: "Método no permitido." },
-        {
-          status: 405,
-          headers: { Allow: "GET" }
+    if (rutasAPI.includes(ruta)) {
+      if (request.method !== "GET") {
+        return Response.json(
+          { ok: false, error: "Método no permitido." },
+          {
+            status: 405,
+            headers: { Allow: "GET" }
+          }
+        );
+      }
+
+      try {
+        const datos = await obtenerDatosYouTube(env);
+
+        let resultado;
+
+        if (ruta === "/api/metrics") {
+          resultado = {
+            ok: true,
+            channel: datos.channel,
+            report: datos.report,
+            metrics: datos.metrics
+          };
+        } else if (ruta === "/api/top10") {
+          resultado = {
+            ok: true,
+            videos: Array.isArray(datos.top10)
+              ? datos.top10
+              : []
+          };
+        } else {
+          resultado = {
+            ok: true,
+            videos: Array.isArray(datos.top10menos)
+              ? datos.top10menos
+              : []
+          };
         }
-      );
+
+        return Response.json(resultado, {
+          headers: {
+            "Cache-Control": "public, max-age=60"
+          }
+        });
+      } catch (error) {
+        console.error(`Error en ${ruta}:`, error);
+
+        return Response.json(
+          {
+            ok: false,
+            error: "No se pudieron consultar los datos."
+          },
+          { status: 502 }
+        );
+      }
     }
 
-    try {
-      const datos = await obtenerDatosYouTube(env);
-
-      const resultado =
-        ruta === "/api/metrics"
-          ? {
-              ok: true,
-              channel: datos.channel,
-              report: datos.report,
-              metrics: datos.metrics
-            }
-          : {
-              ok: true,
-              videos: Array.isArray(datos.top10)
-                ? datos.top10
-                : []
-            };
-
-      return Response.json(resultado, {
-        headers: {
-          "Cache-Control": "public, max-age=60"
-        }
-      });
-    } catch (error) {
-      console.error(`Error en ${ruta}:`, error);
-
-      return Response.json(
-        {
-          ok: false,
-          error: "No se pudieron consultar los datos."
-        },
-        { status: 502 }
-      );
-    }
+    // El resto de las rutas se sirve desde los archivos de la landing.
+    return env.ASSETS.fetch(request);
   }
 };
