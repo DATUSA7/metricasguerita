@@ -164,9 +164,10 @@ const chartVisibility = new Map();
 // 1. CARGAR DATOS LOCALES
 // --------------------------------------------------
 
+
 async function loadReport() {
   try {
-    const response = await fetch("/metrics.json", {
+    const response = await fetch("/api/metrics", {
       cache: "no-cache"
     });
 
@@ -174,25 +175,66 @@ async function loadReport() {
       throw new Error(`Error HTTP ${response.status}`);
     }
 
-    reportData = await response.json();
+    const data = await response.json();
+
+    if (!data.ok) {
+      throw new Error(
+        data.error || "La API no pudo devolver las métricas."
+      );
+    }
+
+    // La API proporciona los datos actualizados del canal.
+    reportData = {
+      ...data,
+      channel: {
+        ...(data.channel || {})
+      },
+      report: data.report || null,
+      metrics: data.metrics || {}
+    };
+
+    // Mantener la descripción y la imagen si existen
+    // en el archivo local anterior.
+    try {
+      const localResponse = await fetch("/metrics.json", {
+        cache: "no-cache"
+      });
+
+      if (localResponse.ok) {
+        const localData = await localResponse.json();
+
+        reportData.channel = {
+          ...(localData.channel || {}),
+          ...(reportData.channel || {})
+        };
+
+        reportData.socials = localData.socials || [];
+      }
+    } catch (localError) {
+      console.warn(
+        "No se pudieron cargar los datos descriptivos locales:",
+        localError
+      );
+    }
 
     renderHero(reportData.channel);
     renderReportMeta(reportData.report);
     renderMetrics(reportData.metrics);
-    renderSocials(reportData.socials);
+    renderSocials(reportData.socials || []);
   } catch (error) {
-    console.error("No se pudo cargar metrics.json:", error);
+    console.error("No se pudieron cargar las métricas de /api/metrics:", error);
 
     metricsGrid.replaceChildren();
 
     const message = document.createElement("p");
     message.className = "error-message";
     message.textContent =
-      "No fue posible cargar las métricas. Revisa el archivo metrics.json.";
+      "No fue posible cargar las métricas del canal.";
 
     metricsGrid.appendChild(message);
   }
 }
+
 
 // --------------------------------------------------
 // 2. HERO
