@@ -6,8 +6,13 @@ export default {
     const url = new URL(request.url);
     const ruta = url.pathname;
 
-    // Las rutas API se procesan en este Worker.
-    if (ruta === "/api/metrics" || ruta === "/api/top10") {
+    const rutasAPI = [
+      "/api/metrics",
+      "/api/top10",
+      "/api/top10menos"
+    ];
+
+    if (rutasAPI.includes(ruta)) {
       if (request.method !== "GET") {
         return Response.json(
           { ok: false, error: "Método no permitido." },
@@ -21,20 +26,30 @@ export default {
       try {
         const datos = await obtenerDatosYouTube(env);
 
-        const resultado =
-          ruta === "/api/metrics"
-            ? {
-                ok: true,
-                channel: datos.channel,
-                report: datos.report,
-                metrics: datos.metrics
-              }
-            : {
-                ok: true,
-                videos: Array.isArray(datos.top10)
-                  ? datos.top10
-                  : []
-              };
+        let resultado;
+
+        if (ruta === "/api/metrics") {
+          resultado = {
+            ok: true,
+            channel: datos.channel,
+            report: datos.report,
+            metrics: datos.metrics
+          };
+        } else if (ruta === "/api/top10") {
+          resultado = {
+            ok: true,
+            videos: Array.isArray(datos.top10)
+              ? datos.top10
+              : []
+          };
+        } else {
+          resultado = {
+            ok: true,
+            videos: Array.isArray(datos.top10menos)
+              ? datos.top10menos
+              : []
+          };
+        }
 
         return Response.json(resultado, {
           headers: {
@@ -54,7 +69,6 @@ export default {
       }
     }
 
-    // El resto de las rutas se sirve desde los archivos de la landing.
     return env.ASSETS.fetch(request);
   }
 };

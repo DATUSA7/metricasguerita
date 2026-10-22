@@ -6,7 +6,6 @@ export default {
     const url = new URL(request.url);
     const ruta = url.pathname;
 
-    // Las rutas API se procesan en este Worker.
     const rutasAPI = [
       "/api/metrics",
       "/api/top10",
@@ -70,7 +69,6 @@ export default {
       }
     }
 
-    // El resto de las rutas se sirve desde los archivos de la landing.
     return env.ASSETS.fetch(request);
   }
 };
